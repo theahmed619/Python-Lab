@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Chained Form{% endblock  %}
+{% block content %}
+<div class="container my-4">
+<form>
+  <h3>Country</h3>
+<select name="country" class="form-select mb-5" aria-label="Default select example" onchange="this.form.submit()">
+  <option selected>Select your Country</option>
+  {% for country  in countries %}
+  <option value="{{country.id}}" {% if  selected_country == country.id|stringformat:"s" %}
+  selected
+  {% endif %}>{{country}}</option>
+{% endfor %}
+</select>
+<br> 
+  <h3>State</h3>
+<select class="form-select mb-5" aria-label="Default select example">
+  <option selected>Select your State</option>
+  {% for state  in states %}
+  <option value="{{state}}">{{state}}</option>
+{% endfor %}
+</select>
+<br>
+  <h3>City</h3>
+<select class="form-select mb-5" aria-label="Default select example">
+  <option selected>Select your City</option>
+  {% for state  in states %}
+  <option value="{{state}}">{{state}}</option>
+{% endfor %}
+</select>
+<br>
+  <button type="submit" class="btn btn-primary my-5">Submit</button>
+</form>
+</div>
+{% endblock  %}

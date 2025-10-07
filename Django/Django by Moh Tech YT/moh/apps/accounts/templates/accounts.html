@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-3 d-flex flex-wrap">
+  {% for user  in users %}
+  <div class="card mx-3 my-3" style="width: 18rem;">
+  
+  <div class="card-body ">
+    <h5 class="card-title text-center">{{user.username}}</h5>
+   
+    <a href="{% url "profile" user.id %}" class="btn btn-primary col-md-12">PROFILE</a>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock  %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 d-flex flex-wrap">
+  {% for student in students  %}
+  
+ 
+  <div class="card m-3" style="width: 18rem;">
+  <img src="{{student.image.url}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{student.name}}</h5>
+    <p class="card-text">{{student.email}}</p>
+    <a href="{% url "update_student" student.id %}" class="btn btn-primary">Update</a>
+  </div>
+</div>
+ {% endfor %}
+</div>
+{% endblock content %}

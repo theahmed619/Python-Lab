@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+
+{% block title %}{{title}}{% endblock title %} 
+
+{%block content %}
+{% if loggin %}
+<h1>Hello, {{user_name}}</h1>
+{% for lang in languages %}
+<h3>{{lang}}</h3>
+{% endfor %} 
+{% else %}
+<h2>please login</h2>
+{% endif %}
+{% endblock content %}
