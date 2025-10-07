@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+  .accounts-wrapper {
+    min-height: 100vh;
+    background: #0a0a0a;
+    padding: 40px 20px;
+  }
+  
+  .accounts-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .accounts-header h1 {
+    color: #fff;
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  
+  .accounts-header p {
+    color: #888;
+    font-size: 16px;
+  }
+  
+  .users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .user-card {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .user-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fff, #888);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+  
+  .user-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    border-color: #444;
+  }
+  
+  .user-card:hover::before {
+    transform: scaleX(1);
+  }
+  
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #333, #555);
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    border: 3px solid #2a2a2a;
+    transition: all 0.3s ease;
+  }
+  
+  .user-card:hover .user-avatar {
+    transform: scale(1.1);
+    border-color: #fff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+  
+  .user-name {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .chat-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 24px;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+  }
+  
+  .chat-btn:hover {
+    background: #f0f0f0;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+  
+  .empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+  }
+  
+  .empty-state h3 {
+    color: #888;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .empty-state p {
+    color: #666;
+  }
+  
+  /* Tablet */
+  @media (max-width: 992px) {
+    .users-grid {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    
+    .accounts-header h1 {
+      font-size: 32px;
+    }
+  }
+  
+  /* Mobile */
+  @media (max-width: 576px) {
+    .accounts-wrapper {
+      padding: 30px 15px;
+    }
+    
+    .accounts-header {
+      margin-bottom: 30px;
+    }
+    
+    .accounts-header h1 {
+      font-size: 28px;
+    }
+    
+    .accounts-header p {
+      font-size: 14px;
+    }
+    
+    .users-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+      padding: 0 10px;
+    }
+    
+    .user-card {
+      padding: 25px;
+    }
+    
+    .user-avatar {
+      width: 70px;
+      height: 70px;
+      font-size: 28px;
+    }
+    
+    .user-name {
+      font-size: 18px;
+    }
+  }
+</style>
+
+<div class="accounts-wrapper">
+  <div class="accounts-header">
+    <h1>Available Users</h1>
+    <p>Select a user to start chatting</p>
+  </div>
+  
+  <div class="users-grid">
+    {% for user in users %}
+      {% if not user == request.user %}
+        <div class="user-card">
+          <div class="user-avatar">
+            {{ user.username|slice:":1" }}
+          </div>
+          <h5 class="user-name">{{ user.username }}</h5>
+          <a href="{% url 'chat' user.username %}" class="chat-btn">Start Chat</a>
+        </div>
+      {% endif %}
+    {% empty %}
+      <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="empty-state-icon">👥</div>
+        <h3>No Users Available</h3>
+        <p>There are no other users to chat with at the moment.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
